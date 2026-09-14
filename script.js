@@ -503,6 +503,34 @@ const initScrollPlayVideos = () => {
   wrappersToObserve.forEach(w => videoObserver.observe(w));
 };
 
+// Interactive Category Filter System for Projects Page
+const initProjectFilters = () => {
+  const filterBtns = document.querySelectorAll('.project-filter-btn');
+  const projectCards = document.querySelectorAll('.portfolio-card-item, .execution-card-item');
+
+  if (filterBtns.length === 0 || projectCards.length === 0) return;
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const selectedFilter = btn.getAttribute('data-filter') || 'all';
+
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      projectCards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category') || '';
+        if (selectedFilter === 'all' || cardCategory.includes(selectedFilter)) {
+          card.classList.remove('is-hidden');
+          card.style.display = 'flex';
+        } else {
+          card.classList.add('is-hidden');
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+};
+
 const initApp = () => {
   initScrollReveals();
   initLightboxModal();
@@ -510,6 +538,7 @@ const initApp = () => {
   initHeroSlider();
   initHero3DImage();
   initScrollPlayVideos();
+  initProjectFilters();
 };
 
 if (document.readyState === 'loading') {
@@ -517,6 +546,7 @@ if (document.readyState === 'loading') {
 } else {
   initApp();
 }
+
 
 
 
